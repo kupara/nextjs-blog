@@ -4,6 +4,13 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
+export interface PostData {
+  id: string;
+  contentHtml: string;
+  title: string;
+  date: string;
+}
+
 const postsDirectory = path.join(process.cwd(), 'posts');
 
 export function getSortedPostsData() {
@@ -23,7 +30,7 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
-      ...matterResult.data,
+      ...matterResult.data as MatterResult,
     };
   });
   // Sort posts by date
@@ -47,6 +54,11 @@ export const getAllPostIds = () => {
   });
 }
 
+interface MatterResult {
+  date: string;
+  title: string;
+}
+
 export async function getPostData(id) {
   const fullPath = path.join(postsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -64,6 +76,6 @@ export async function getPostData(id) {
   return {
     id,
     contentHtml,
-    ...matterResult.data,
+    ...matterResult.data as MatterResult,
   };
 }
