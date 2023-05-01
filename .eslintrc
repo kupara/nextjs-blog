@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": [
+      "eslint:recommended",
+      "next"
+  ],
+  "ecmaFeatures": {
+    "modules": true
+  }
+}
